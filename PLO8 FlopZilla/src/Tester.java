@@ -26,6 +26,5 @@ public class Tester extends JFrame{
 		}
 		return give;
 	}
-	
 
 }
