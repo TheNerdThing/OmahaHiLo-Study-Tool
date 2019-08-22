@@ -1,0 +1,54 @@
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JToggleButton;
+
+
+/**
+ * @author Gregory Evevsky
+ * TODO
+ */
+public class FlopSelector extends SelectorSuper implements ActionListener{
+	
+
+	private final int MAX_CARDS_ON_BOARD = 5;
+	public FlopSelector(int height, int width, int hStart, int wStart) {
+		this.setLayout(new GridLayout(13,4));
+		for(int x = 14; x > 1; x--) {
+			for(int y = 3; y >= 0; y--) {
+				JToggleButton add = new JToggleButton();
+				add.addActionListener(this);
+				add.setText(intRankToString(x) + suiteToString(intToSuite(y)) );
+				this.add(add);
+			}
+		}
+	}
+
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		JToggleButton work;
+		if(arg0.getSource() instanceof JToggleButton) {
+				work = (JToggleButton) arg0.getSource();
+		}else {
+			return;
+		}
+		System.out.println(pressed.size());
+		// if we already have 5 cards selected then we don't want to add new cards
+		if(pressed.size() >= MAX_CARDS_ON_BOARD) {
+			work.setSelected(false);
+		}
+		String text = work.getText();
+		if(work.isSelected()) {
+			pressed.add(text);
+		}else {
+			pressed.remove(text);
+		}
+		
+		
+	
+		
+	}
+}
