@@ -123,7 +123,7 @@ public abstract class SelectorSuper extends JPanel {
 		}
 	}
 	/**
-	 * @return the pressed
+	 * @return the pressed toggle buttons
 	 */
 	public ArrayList<String> getPressed() {
 		return pressed;

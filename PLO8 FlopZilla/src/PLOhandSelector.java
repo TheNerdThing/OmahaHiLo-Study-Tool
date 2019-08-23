@@ -4,11 +4,12 @@ import javax.swing.JToggleButton;
 
 /**
  * @author Gregory Evevsky
- * TODO
+ * only change to this class is to limit the user to selecting 2 hands. 
  */
 public class PLOhandSelector extends HandSelector{
 
 	private static final int MAX_HANDS_SELECTED = 2;
+	
 	public PLOhandSelector(int height, int width, int hStart, int wStart) {
 		super(height, width, hStart, wStart);
 		// TODO Auto-generated constructor stub

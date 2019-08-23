@@ -12,8 +12,9 @@ import javax.swing.JToggleButton;
  */
 public class FlopSelector extends SelectorSuper implements ActionListener{
 	
-
+	// standard game of flop poker. there are only 5 cards on the board
 	private final int MAX_CARDS_ON_BOARD = 5;
+	
 	public FlopSelector(int height, int width, int hStart, int wStart) {
 		this.setLayout(new GridLayout(13,4));
 		for(int x = 14; x > 1; x--) {
@@ -36,7 +37,7 @@ public class FlopSelector extends SelectorSuper implements ActionListener{
 			return;
 		}
 		System.out.println(pressed.size());
-		// if we already have 5 cards selected then we don't want to add new cards
+		// if we already have the max amount of cards selected then we don't want to add new cards
 		if(pressed.size() >= MAX_CARDS_ON_BOARD) {
 			work.setSelected(false);
 		}
