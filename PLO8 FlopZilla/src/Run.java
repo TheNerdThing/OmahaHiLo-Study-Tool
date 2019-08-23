@@ -8,7 +8,7 @@ public class Run {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Tester test = new Tester();
+		GUI test = new GUI();
 		int count =0; 
 		while(true) {
 			count ++;
