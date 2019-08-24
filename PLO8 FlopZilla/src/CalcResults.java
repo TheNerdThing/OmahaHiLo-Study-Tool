@@ -1,7 +1,7 @@
 
 /**
  * @author Gregory Evevsky
- * TODO Impliment class
+ * TODO Implement class
  */
 public final  class CalcResults {
 
@@ -33,7 +33,23 @@ public final  class CalcResults {
 	private static boolean hasNutLowDraw   (Card[] hand, Card[] board) {return false;}
 	private static boolean hasNonNutLowDraw(Card[] hand, Card[] board) {return false;}
 	private static boolean hasStr8Draw     (Card[] hand, Card[] board) {return false;}
-	private static boolean hasPair         (Card[] hand, Card[] board) {return false;}
+	
+	/** 
+	 * checks if a card in the hand matchs a card on the board
+	 * @param hand
+	 * @param board
+	 * @return
+	 */
+	private static boolean hasPair (Card[] hand, Card[] board) {
+		for(Card x : hand) {
+			for(Card y : board) {
+				if(x.getRank() == y.getRank()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	
 }
