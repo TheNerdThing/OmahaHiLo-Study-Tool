@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  */
 public abstract class SelectorSuper extends JPanel {
 
-	ArrayList<String> pressed;
+	protected ArrayList<String> pressed;
 	
 	public enum Rank{  
 		ACE,TWO,THREE,FOUR, FIVE, SIX, SEVEN,EIGHT, NINE,TEN,JACK,KING,QUEEN
@@ -21,6 +21,9 @@ public abstract class SelectorSuper extends JPanel {
 	public SelectorSuper(){
 		pressed = new ArrayList<String>();
 	}
+	abstract public Card[] getSelected() ;
+		
+	
 	/**
 	 * changes x from an int to a string resembling the rank
 	 * ie: 1 returns "A"for ACE

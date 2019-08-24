@@ -31,6 +31,9 @@ public class GUI extends JFrame{
 		this.setVisible(true);
 	}
 	
+//	public void updateResults() {
+//		CalcResults.calcResults(ploS.pressed, fs.pressed, rp);
+//	}
 	public String  printComponets() {
 		String give ="";
 		for(String i : ploS.getPressed()) {
