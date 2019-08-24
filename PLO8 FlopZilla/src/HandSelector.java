@@ -75,4 +75,10 @@ public class HandSelector extends SelectorSuper  implements ActionListener{
 	
 		
 	}
+
+	@Override
+	public Card[] getSelected() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
