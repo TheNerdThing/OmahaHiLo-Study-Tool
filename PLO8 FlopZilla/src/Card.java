@@ -32,5 +32,37 @@ public class Card {
 		return suite;
 	}  
 	
+	@Override
+	public String toString() {
+		String r = "";
+		if(rank == 1) {
+			r = "A";
+		}else if(rank == 10) {
+			r ="T";
+		}else if(rank == 11) {
+			r = "J";
+		}else if(rank == 12) {
+			r = "Q";
+		}else if(rank == 13) {
+			r = "K";
+		}else {
+			return "" + rank + suite;
+		}
+		return r  + suite;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Card) {
+			Card that = (Card)obj;
+			return that.getRank() == this.getRank() && that.getSuite() == this.getSuite();
+		}
+		return false;
+	}
 	
+
 }

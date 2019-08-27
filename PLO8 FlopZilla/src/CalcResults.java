@@ -19,8 +19,7 @@ public final  class CalcResults {
 	}
 	
 	public void calcResults() {
-//		hand.getSelected() != null && && board.getSelected() != null 
-		if( hand.getSelected() != null ) {
+		if( hand.getSelected() != null  && hand.getSelected().length == 4) {
 			calcResults(hand.getSelected(), board.getSelected(), rp);
 		}else {
 			System.out.println("calc results did not run, awaitnig more info");
@@ -35,10 +34,17 @@ public final  class CalcResults {
 		test[0] = "this is a test";
 		test[1] = "this is also a test";
 		update.updateTable(results , test);
-		System.out.println("updating things");
-//		if(board.length == 3) {
-//			update.updateTable(flopResults( hand, board), null);
-//		}else if(board.length == 4) {
+		if(board.length == 3) {
+			System.out.println("'''''''''''");
+			for( Card i : board) {
+				
+				System.out.println(i);
+				
+			}
+			System.out.println("=========");
+			update.updateTable(flopResults( hand, board), test);
+		}
+//		else if(board.length == 4) {
 //			update.updateTable(turnResults(hand, board), null);
 //		}else if(board.length == 5) {
 //			update.updateTable(riverResults(hand, board), null);
@@ -56,8 +62,26 @@ public final  class CalcResults {
 	private static Object[][] turnResults   (Card[] hand, Card[] board){return null;}
 	
 	private static Object[][] flopResults   (Card[] hand, Card[] board){
+		Object[][] give = new Object[3][2];
+		String add = "";
+		for(Card i : hand) {
+			add += i;
+			add += " , ";
+		}
+		give[0][0] = "the hand is";
+		give[0][1] = add;
+		add = "";
+		for(Card i : board) {
+			add += i;
+			add += " , ";
+		}
+		give[1][0] = "the board is";
+		give[1][1] = add;
+		give [2][0] = "has low draw?";
+		give [2][1] = new Boolean(hasLowDraw(hand, board));
 		
-		return null;}
+		return give;
+	}
 	private static boolean hasNutFLushDraw (Card[] hand, Card[] board) {return false;}
 	private static boolean hasNutLowDraw   (Card[] hand, Card[] board) {return false;}
 	
@@ -76,36 +100,35 @@ public final  class CalcResults {
 	 * @param board
 	 * @return
 	 */
-	private static boolean hasAnyLowDraw(Card[] hand, Card[] board) {
-		int boardLowCards = numberOfLowCards(board);
-
+	private static boolean hasLowDraw(Card[] hand, Card[] board) {
 		Card[] lowHand = getLowCards(hand);
 		Card[] lowBoard = getLowCards(board);
-		int handLowCards = numberOfLowCards(hand);
-		switch(handLowCards) {
-		case 1:
-			// we cannot have any low draw
-			return false;
-		case 2: 
-			// if there is a pair on the board, we do not have a low draw
-			if(lowBoard.length == 2) {
-				if(hasPair(lowHand ,lowBoard)) {
-					return false;
-				}else {
-					return true;
+		// there needs to be at least 2 low cards on the board for a low draw to be possible
+		if(lowBoard.length > 1) {
+			switch(lowHand.length) {
+			case 1:
+				// we cannot have any low draw
+				return false;
+			case 2: 
+				// if we have a pair then, we do not have a low draw
+				if(lowBoard.length == 2) {
+					if(hasPair(lowHand ,lowBoard)) {
+						return false;
+					}else {
+						return true;
+					}
 				}
-			}
-		case 3:
-			// this should only be true if we do not have 2 pair
-			return(!hasTwoPair(lowHand, lowBoard));
-		case 4:
-			// we will all ways have a low draw if we have 4 low cards and there are 2 on the board
-			// our low draw cannot be counterfeited
-			return lowBoard.length >=2; 
+			case 3:
+				// this should only be true if we do not have 2 pair
+				return(!hasTwoPair(lowHand, lowBoard));
+			case 4:
+				// we will all ways have a low draw if we have 4 low cards and there are 2 on the board
+				// our low draw cannot be counterfeited
+				return true; 
+				
 			
-		
+			}
 		}
-		
 		return false;
 	}
 	/**
@@ -124,7 +147,7 @@ public final  class CalcResults {
 		for( int i= 0; i < giveArrayList.size(); i++) {
 			give[i] = giveArrayList.get(i);
 		}
-		return give;
+		return removePairs(give);
 		
 	}
 	/**
@@ -173,7 +196,34 @@ public final  class CalcResults {
 		}
 		return false;
 	}
-	
+	/**
+	 * removes any cards of the same rank in hand
+	 * @param hand
+	 * @return
+	 */
+	private static Card[] removePairs(Card[] hand) {
+		ArrayList<Card> give = new ArrayList<Card>();
+		if(hand.length > 0) {
+			give.add(hand[0]);
+		}
+		boolean flag = true;
+		for(int x = 1; x < hand.length ; x++) {
+			for(int y = 0; y < give.size(); y++) {
+				if(give.get(y).getRank() == hand[x].getRank()) {
+					flag = false;
+				}
+			}
+			if(flag) {
+				give.add(hand[x]);
+			}
+		}
+		
+		Card[] pass = new Card[give.size()];
+		for(int i = 0; i < pass.length; i++) {
+			pass[i] = give.get(i);
+		}
+		return pass;
+	}
 	private static boolean hasTwoPair(Card[] hand, Card[] board) {
 		int pairCount = 0;
 		for(Card i : hand) {

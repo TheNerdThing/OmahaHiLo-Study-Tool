@@ -84,6 +84,7 @@ public class CardSelector extends SelectorSuper implements ActionListener{
 	}
 
 
+
 	@Override
 	public Card[] getSelected() {
 		if(pressed.size() ==0) {
@@ -91,7 +92,7 @@ public class CardSelector extends SelectorSuper implements ActionListener{
 		}
 		Card[] give = new Card[pressed.size()];
 		for(int i = 0; i < give.length; i++) {
-			give[i] = new Card(stringToIntRank(pressed.get(i).substring(0, 0)) , pressed.get(i).charAt(1));
+			give[i] = new Card(stringToIntRank(pressed.get(i).substring(0, 1)) , pressed.get(i).charAt(1));
 		}
 		return give;
 	}
