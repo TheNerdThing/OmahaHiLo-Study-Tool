@@ -29,7 +29,7 @@ public final  class CalcResults {
 	
 	public static void calcResults(Card[] hand, Card[] board, ResultsPane update) {
 		Object[][] results = new Object [2][2];
-		results[0][0] = "i am testing";
+		results[0][0] = "the length of hand is :" + hand.length;
 		results[1][1] = "i am also testing";
 		String[] test = new String[2];
 		test[0] = "this is a test";

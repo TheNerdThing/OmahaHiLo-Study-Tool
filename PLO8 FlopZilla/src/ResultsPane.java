@@ -1,4 +1,6 @@
 
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -13,13 +15,15 @@ public class ResultsPane extends JPanel{
 	
 	public ResultsPane(){
 		super();
+		this.setLayout(new GridLayout(1,1));
         table = new JTable();
-        // this is a test
-        this.add(table);
+        
 	}
 	
 	public void updateTable(Object [][] data , String[] colNames) {
+		this.remove(table);
 		table = new JTable(data, colNames);
+		this.add(table);
 	}
 
 }
