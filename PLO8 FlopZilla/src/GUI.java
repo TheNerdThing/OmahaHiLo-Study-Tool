@@ -10,8 +10,8 @@ import javax.swing.JTabbedPane;
  */
 public class GUI extends JFrame{
 
-	PLOhandSelector ploS;
-	FlopSelector fs;
+	CardSelector handSelector;
+	CardSelector flopSelector;
 	ResultsPane rp;
 	
 	JTabbedPane tabbedPane; 
@@ -19,11 +19,11 @@ public class GUI extends JFrame{
 	public GUI() {
 		this.setBounds(450,10,1000,1000);
 		tabbedPane = new JTabbedPane(); 
-		ploS =  new PLOhandSelector(300,300,0,0);
-		fs = new FlopSelector(500,250,0,0);
+		handSelector =  new CardSelector(4,300,300,0,0);
+		flopSelector = new CardSelector(5,500,250,0,0);
 		rp = new ResultsPane();
-		tabbedPane.addTab("Hand Selector",ploS);
-		tabbedPane.addTab("Flop Selector",fs);
+		tabbedPane.addTab("Hand Selector",handSelector);
+		tabbedPane.addTab("Flop Selector",flopSelector);
 		tabbedPane.addTab("statistics", rp);
 		this.add(tabbedPane);
 
@@ -36,7 +36,7 @@ public class GUI extends JFrame{
 //	}
 	public String  printComponets() {
 		String give ="";
-		for(String i : ploS.getPressed()) {
+		for(String i : handSelector.getPressed()) {
 			give += i;
 		}
 		return give;

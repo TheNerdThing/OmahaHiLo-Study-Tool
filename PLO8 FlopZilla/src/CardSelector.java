@@ -10,13 +10,14 @@ import javax.swing.JToggleButton;
  * @author Gregory Evevsky
  * TODO
  */
-public class FlopSelector extends SelectorSuper implements ActionListener{
+public class CardSelector extends SelectorSuper implements ActionListener{
 	
 	// standard game of flop poker. there are only 5 cards on the board
-	private final int MAX_CARDS_ON_BOARD = 5;
+	private int maxCard ;
 	
-	public FlopSelector(int height, int width, int hStart, int wStart) {
+	public CardSelector(int maxCard, int height, int width, int hStart, int wStart) {
 		this.setLayout(new GridLayout(13,4));
+		this.maxCard = maxCard;
 		for(int x = 14; x > 1; x--) {
 			for(int y = 3; y >= 0; y--) {
 				JToggleButton add = new JToggleButton();
@@ -38,7 +39,7 @@ public class FlopSelector extends SelectorSuper implements ActionListener{
 		}
 		System.out.println(pressed.size());
 		// if we already have the max amount of cards selected then we don't want to add new cards
-		if(pressed.size() >= MAX_CARDS_ON_BOARD) {
+		if(pressed.size() >= maxCard) {
 			work.setSelected(false);
 		}
 		String text = work.getText();
