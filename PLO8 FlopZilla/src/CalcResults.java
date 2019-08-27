@@ -54,7 +54,10 @@ public final  class CalcResults {
 	private static Object[][] riverResults  (Card[] hand, Card[] board){return null;}
 	private static Object[][] preFlopResults(Card[] hand, Card[] board){return null;}
 	private static Object[][] turnResults   (Card[] hand, Card[] board){return null;}
-	private static Object[][] flopResults   (Card[] hand, Card[] board){return null;}
+	
+	private static Object[][] flopResults   (Card[] hand, Card[] board){
+		
+		return null;}
 	private static boolean hasNutFLushDraw (Card[] hand, Card[] board) {return false;}
 	private static boolean hasNutLowDraw   (Card[] hand, Card[] board) {return false;}
 	
@@ -73,19 +76,33 @@ public final  class CalcResults {
 	 * @param board
 	 * @return
 	 */
-	private static boolean hasAnyNutLowDraw(Card[] hand, Card[] board) {
+	private static boolean hasAnyLowDraw(Card[] hand, Card[] board) {
 		int boardLowCards = numberOfLowCards(board);
-		if(boardLowCards < 2) {
-			return false;
-		}
+
 		Card[] lowHand = getLowCards(hand);
 		Card[] lowBoard = getLowCards(board);
 		int handLowCards = numberOfLowCards(hand);
-		// if 
 		switch(handLowCards) {
+		case 1:
+			// we cannot have any low draw
+			return false;
 		case 2: 
+			// if there is a pair on the board, we do not have a low draw
+			if(lowBoard.length == 2) {
+				if(hasPair(lowHand ,lowBoard)) {
+					return false;
+				}else {
+					return true;
+				}
+			}
 		case 3:
+			// this should only be true if we do not have 2 pair
+			return(!hasTwoPair(lowHand, lowBoard));
 		case 4:
+			// we will all ways have a low draw if we have 4 low cards and there are 2 on the board
+			// our low draw cannot be counterfeited
+			return lowBoard.length >=2; 
+			
 		
 		}
 		
@@ -155,6 +172,22 @@ public final  class CalcResults {
 			}
 		}
 		return false;
+	}
+	
+	private static boolean hasTwoPair(Card[] hand, Card[] board) {
+		int pairCount = 0;
+		for(Card i : hand) {
+			Card[] test = new Card[1];
+			test[0] = i;
+			if(hasPair(test, board)) {
+				pairCount ++;
+				if(pairCount == 2) {
+					return true;
+				}
+			}
+		}
+		return false;
+		
 	}
 	
 	
