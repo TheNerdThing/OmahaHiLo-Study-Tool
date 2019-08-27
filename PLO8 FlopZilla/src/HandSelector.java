@@ -9,7 +9,6 @@ import javax.swing.JToggleButton;
 
 public class HandSelector extends SelectorSuper  implements ActionListener{
 
-	boolean[][] handSelection; 
 
 
 	
@@ -55,6 +54,7 @@ public class HandSelector extends SelectorSuper  implements ActionListener{
 			System.out.println(((JToggleButton) (this.getComponent(i))).getText());
 		}
 	}
+
 
 
 

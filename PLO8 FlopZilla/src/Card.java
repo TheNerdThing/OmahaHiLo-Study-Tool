@@ -1,4 +1,5 @@
 
+
 /**
  * @author Gregory Evevsky
  * helper class to help make sence of the stats
@@ -16,6 +17,8 @@ public class Card {
 		this.rank = rank;
 		this.suite = suite;
 	}
+	
+
 	/**
 	 * @return the rank
 	 */

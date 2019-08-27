@@ -24,6 +24,7 @@ public abstract class SelectorSuper extends JPanel {
 	abstract public Card[] getSelected() ;
 		
 	
+	
 	/**
 	 * changes x from an int to a string resembling the rank
 	 * ie: 1 returns "A"for ACE
@@ -86,6 +87,7 @@ public abstract class SelectorSuper extends JPanel {
 				return null;
 		}
 	}
+	
 	/**
 	 * converts r to a string
 	 * IE Rank.TWO returns "2"
@@ -124,6 +126,37 @@ public abstract class SelectorSuper extends JPanel {
 			return " " ;
 			
 		}
+	}
+	
+	protected int stringToIntRank(String r) {
+		if(r.equals("2")) {
+			return 2;
+		}if(r.equals("3")) {
+			return 3;
+		}if(r.equals("4")) {
+			return 4;
+		}if(r.equals("5")) {
+			return 5;
+		}if(r.equals("6")) {
+			return 6;
+		}if(r.equals("7")) {
+			return 7;
+		}if(r.equals("8")) {
+			return 8;
+		}if(r.equals("9")) {
+			return 9;
+		}if(r.equals("T") || r.equals("t")) {
+			return 10;
+		}if(r.equals("J") || r.equals("j")) {
+			return 11;
+		}if(r.equals("Q") || r.equals("q")) {
+			return 12;
+		}if(r.equals("K") || r.equals("k")) {
+			return 13;
+		}if(r.equals("A") || r.equals("a")) {
+			return 1;
+		}
+		return 0;
 	}
 	/**
 	 * @return the pressed toggle buttons

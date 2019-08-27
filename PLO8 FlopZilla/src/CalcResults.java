@@ -8,20 +8,45 @@ public final  class CalcResults {
 
 	private static final int TOTAL_FLOPS = 19600; // total different number of 3 card combos that can be made with a deck of cards
 
+	private CardSelector board;
+	private CardSelector hand;
+	private ResultsPane rp;
+	
+	public CalcResults(CardSelector board, CardSelector hand , ResultsPane rp) {
+		this.board = board;
+		this.hand = hand;
+		this.rp = rp;
+	}
+	
+	public void calcResults() {
+//		hand.getSelected() != null && && board.getSelected() != null 
+		if( hand.getSelected() != null ) {
+			calcResults(hand.getSelected(), board.getSelected(), rp);
+		}else {
+			System.out.println("calc results did not run, awaitnig more info");
+		}
+	}
 	
 	public static void calcResults(Card[] hand, Card[] board, ResultsPane update) {
-
-		if(board.length == 3) {
-			update.updateTable(flopResults( hand, board), null);
-		}else if(board.length == 4) {
-			update.updateTable(turnResults(hand, board), null);
-		}else if(board.length == 5) {
-			update.updateTable(riverResults(hand, board), null);
-		}else if(board.length == 0) {
-			update.updateTable(preFlopResults(hand, board), null);
-		}else {
-			System.out.println("not enough info to calc results");
-		}
+		Object[][] results = new Object [2][2];
+		results[0][0] = "i am testing";
+		results[1][1] = "i am also testing";
+		String[] test = new String[2];
+		test[0] = "this is a test";
+		test[1] = "this is also a test";
+		update.updateTable(results , test);
+		System.out.println("updating things");
+//		if(board.length == 3) {
+//			update.updateTable(flopResults( hand, board), null);
+//		}else if(board.length == 4) {
+//			update.updateTable(turnResults(hand, board), null);
+//		}else if(board.length == 5) {
+//			update.updateTable(riverResults(hand, board), null);
+//		}else if(board.length == 0) {
+//			update.updateTable(preFlopResults(hand, board), null);
+//		}else {
+//			System.out.println("not enough info to calc results");
+//		}
 	
 	}
 

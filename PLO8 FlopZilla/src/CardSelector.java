@@ -14,8 +14,10 @@ public class CardSelector extends SelectorSuper implements ActionListener{
 	
 	// standard game of flop poker. there are only 5 cards on the board
 	private int maxCard ;
+	private CalcResults cr;
 	
 	public CardSelector(int maxCard, int height, int width, int hStart, int wStart) {
+		
 		this.setLayout(new GridLayout(13,4));
 		this.maxCard = maxCard;
 		for(int x = 14; x > 1; x--) {
@@ -28,6 +30,37 @@ public class CardSelector extends SelectorSuper implements ActionListener{
 		}
 	}
 
+	public void disableBtn(String btn) {
+		for(int i =0; i > this.getComponentCount(); i ++) {
+			JToggleButton work;
+			if(this.getComponent(i) instanceof JToggleButton) {
+				work = (JToggleButton) this.getComponent(i);
+				if(work.getText().equals(btn)) {
+					work.setSelected(false);
+					return ;
+				}
+			}
+			
+		}
+	}
+	
+	public void enableBtn(String btn) {
+		for(int i =0; i > this.getComponentCount(); i ++) {
+			JToggleButton work;
+			if(this.getComponent(i) instanceof JToggleButton) {
+				work = (JToggleButton) this.getComponent(i);
+				if(work.getText().equals(btn)) {
+					work.setSelected(true);
+					return ;
+				}
+			}
+			
+		}
+	}
+	
+	public void addCalcResults( CalcResults cr) {
+		this.cr = cr;
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -37,7 +70,6 @@ public class CardSelector extends SelectorSuper implements ActionListener{
 		}else {
 			return;
 		}
-		System.out.println(pressed.size());
 		// if we already have the max amount of cards selected then we don't want to add new cards
 		if(pressed.size() >= maxCard) {
 			work.setSelected(false);
@@ -47,17 +79,20 @@ public class CardSelector extends SelectorSuper implements ActionListener{
 			pressed.add(text);
 		}else {
 			pressed.remove(text);
-		}
-		
-		
-	
-		
+		}		
+		cr.calcResults();
 	}
 
 
 	@Override
 	public Card[] getSelected() {
-		// TODO Auto-generated method stub
-		return null;
+		if(pressed.size() ==0) {
+			return null;
+		}
+		Card[] give = new Card[pressed.size()];
+		for(int i = 0; i < give.length; i++) {
+			give[i] = new Card(stringToIntRank(pressed.get(i).substring(0, 0)) , pressed.get(i).charAt(1));
+		}
+		return give;
 	}
 }
