@@ -29,7 +29,7 @@ public class GUI extends JFrame {
 		
 		tabbedPane.addTab("Hand Selector",handSelector);
 		tabbedPane.addTab("Flop Selector",flopSelector);
-		tabbedPane.addTab("statistics", rp);
+		tabbedPane.addTab("Statistics", rp);
 		this.add(tabbedPane);
 
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);

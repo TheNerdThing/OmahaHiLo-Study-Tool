@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public final  class CalcResults {
 
 	private static final int TOTAL_FLOPS = 19600; // total different number of 3 card combos that can be made with a deck of cards
+	private static final int CARDS_IN_DECK = 52;
 
 	private CardSelector board;
 	private CardSelector hand;
@@ -61,8 +62,22 @@ public final  class CalcResults {
 	private static Object[][] preFlopResults(Card[] hand, Card[] board){return null;}
 	private static Object[][] turnResults   (Card[] hand, Card[] board){return null;}
 	
+	/**
+	 * flop results I want:
+	 * 		+ has a low draw
+	 * 		+ has a Str8 Draw
+	 *		+ has a pair
+	 * 		+ has two pair
+	 * 		+ has 3 of a kind
+	 * 
+	 * 		+ how often will a low be made
+	 * 
+	 * @param hand
+	 * @param board
+	 * @return
+	 */
 	private static Object[][] flopResults   (Card[] hand, Card[] board){
-		Object[][] give = new Object[3][2];
+		Object[][] give = new Object[4][2];
 		String add = "";
 		for(Card i : hand) {
 			add += i;
@@ -79,9 +94,42 @@ public final  class CalcResults {
 		give[1][1] = add;
 		give [2][0] = "has low draw?";
 		give [2][1] = new Boolean(hasLowDraw(hand, board));
-		
+		give[3][0] = "odds of compleating the low: ";
+		give[3][1] = oddsOfMakeingLow(hand, board);
 		return give;
 	}
+	/**
+	 * 
+	 * @param hand
+	 * @param board
+	 * @return
+	 */
+	private static double oddsOfMakeingLow(Card[]hand , Card[]board) {
+		int cardsLeftToCome =  5 - board.length;
+		Card[] lowBoard = getLowCards(board);
+		Card[] lowHand = getLowCards(hand);
+		// find how many cards make us a low
+		int outs = 0; 
+		
+		// get rid of all pair low cards on the board 
+		for( Card i :lowHand) {
+			removeCardOfRank(i.getRank(), lowBoard);
+		}
+		switch (lowHand.length) {
+		case 1: // if there is only one card in our hand, we cannot make a low
+			return 0;
+		case 2: 
+			outs = 16;
+		case 3: 
+			outs = 22;
+		case 4:
+			outs = 20;
+		}
+		// divide the number outs by how many cards are left in the deck
+		double odds = outs / (CARDS_IN_DECK - (4 + cardsLeftToCome + 5));
+		return odds * cardsLeftToCome;
+	}
+	
 	private static boolean hasNutFLushDraw (Card[] hand, Card[] board) {return false;}
 	private static boolean hasNutLowDraw   (Card[] hand, Card[] board) {return false;}
 	
@@ -99,6 +147,7 @@ public final  class CalcResults {
 	 * @param hand
 	 * @param board
 	 * @return
+	 * @TODO might be easier to remove all cards that are in our hand from the board and compute results based on lenghts 
 	 */
 	private static boolean hasLowDraw(Card[] hand, Card[] board) {
 		Card[] lowHand = getLowCards(hand);
@@ -196,6 +245,24 @@ public final  class CalcResults {
 		}
 		return false;
 	}
+	
+	private static Card[] removeCardOfRank(int rank, Card[] set) {
+		ArrayList<Card> give = new ArrayList<Card>();
+		
+		
+		for(int i =0; i < set.length; i++) {
+			if(set[i].getRank() != rank) {
+				give.add(set[i]);
+			}
+		}
+		Card[] pass = new Card[give.size()];
+		for(int i = 0 ; i < pass.length; i ++ ) {
+			pass[i] = give.get(i);
+		}
+		return pass;
+		
+	}
+	
 	/**
 	 * removes any cards of the same rank in hand
 	 * @param hand
