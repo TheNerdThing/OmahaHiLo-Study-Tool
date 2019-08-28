@@ -92,8 +92,8 @@ public final  class CalcResults {
 		}
 		give[1][0] = "the board is";
 		give[1][1] = add;
-		give [2][0] = "has low draw?";
-		give [2][1] = new Boolean(hasLowDraw(hand, board));
+		give[2][0] = "has low draw?";
+		give[2][1] = new Boolean(hasLowDraw(hand, board));
 		give[3][0] = "odds of compleating the low: ";
 		give[3][1] = oddsOfMakeingLow(hand, board);
 		return give;
@@ -115,19 +115,57 @@ public final  class CalcResults {
 		for( Card i :lowHand) {
 			removeCardOfRank(i.getRank(), lowBoard);
 		}
+	
+		// figure out how many outs we have if there are 2 low cards on the board and how many low cards are in our hand
 		switch (lowHand.length) {
 		case 1: // if there is only one card in our hand, we cannot make a low
 			return 0;
 		case 2: 
 			outs = 16;
+			break;
 		case 3: 
-			outs = 22;
+			outs = 21;
+			break;
 		case 4:
 			outs = 20;
 		}
-		// divide the number outs by how many cards are left in the deck
-		double odds = outs / (CARDS_IN_DECK - (4 + cardsLeftToCome + 5));
-		return odds * cardsLeftToCome;
+		if(lowBoard.length == 2) {
+			// divide the number outs by how many cards are left in the deck
+			if(cardsLeftToCome == 1) {
+				return (double)outs /(double)(CARDS_IN_DECK - 4.0 -4.0); // 4 cards on board, 4 cards in hand
+			}else if(cardsLeftToCome == 2) {
+				int highCards = CARDS_IN_DECK - outs - 4 - 3;
+				int totalPossableCombos = (CARDS_IN_DECK - 4-3) * (CARDS_IN_DECK - 4-4);
+				int highCardCombos = highCards * (highCards -1);
+				return 1 - ((double)(highCardCombos) / totalPossableCombos);
+			}
+			// cards left to come should be 5
+			
+			else {
+				// @TODO to be implemented later
+				return 0;
+			}
+	
+		}else if( lowBoard.length == 1) {
+			// there is one less low card on the board.
+			// therefore we need to add that to our out count
+			outs += 4;
+			// we can not make a low if there is only one card to come and only one card left
+			if(cardsLeftToCome == 1) {
+				return 0;
+			}else if(cardsLeftToCome == 2){
+				// find how many combos of low cards make us a low? 
+				int totalPossableCombos = (CARDS_IN_DECK - 4-3) * (CARDS_IN_DECK - 4-4);
+				// 52 - cards in hand - cards on board
+				int outCombos = outs * (outs -4);
+				return((double)(outCombos) / totalPossableCombos);
+			}
+			// cards left to come should be 5
+			else {
+				
+			}
+		}
+		return 0;
 	}
 	
 	private static boolean hasNutFLushDraw (Card[] hand, Card[] board) {return false;}
