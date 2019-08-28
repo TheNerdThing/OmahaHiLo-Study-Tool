@@ -6,7 +6,6 @@ import java.util.ArrayList;
  */
 public final  class CalcResults {
 
-	private static final int TOTAL_FLOPS = 19600; // total different number of 3 card combos that can be made with a deck of cards
 	private static final int CARDS_IN_DECK = 52;
 
 	private CardSelector board;
@@ -53,15 +52,6 @@ public final  class CalcResults {
 	
 
 	/**
-	 * flop results I want:
-	 * 		+ has a low draw
-	 * 		+ has a Str8 Draw
-	 *		+ has a pair
-	 * 		+ has two pair
-	 * 		+ has 3 of a kind
-	 * 
-	 * 		+ how often will a low be made
-	 * 
 	 * @param hand
 	 * @param board
 	 * @return
@@ -298,7 +288,12 @@ public final  class CalcResults {
 		}
 		return false;
 	}
-	
+	/**
+	 * 
+	 * @param rank
+	 * @param set
+	 * @return removes cards from set that have that match the rank of rank
+	 */
 	private static Card[] removeCardOfRank(int rank, Card[] set) {
 		ArrayList<Card> give = new ArrayList<Card>();
 		
@@ -344,6 +339,12 @@ public final  class CalcResults {
 		}
 		return pass;
 	}
+	/**
+	 * 
+	 * @param hand
+	 * @param board
+	 * @return will return true if at least 2 cards in the hand match the board
+	 */
 	private static boolean hasTwoPair(Card[] hand, Card[] board) {
 		int pairCount = 0;
 		for(Card i : hand) {
