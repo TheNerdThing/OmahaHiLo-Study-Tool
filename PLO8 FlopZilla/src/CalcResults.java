@@ -34,16 +34,16 @@ public final  class CalcResults {
 		test[1] = "im not realy sure i think i need to read about JTables";
 		update.updateTable(results , test);
 		if(board == null) {
-			update.updateTable(preFlopResults(hand, new Card[0]), test);
+			update.updateTable(results(hand, new Card[0]), test);
 			return;
 		}
 		if(board.length == 3) {
-			update.updateTable(flopResults( hand, board), test);
+			update.updateTable(results( hand, board), test);
 		}
 		else if(board.length == 4) {
-			update.updateTable(turnResults(hand, board), test);
+			update.updateTable(results(hand, board), test);
 		}else if(board.length == 5) {
-			update.updateTable(riverResults(hand, board), test);
+			update.updateTable(results(hand, board), test);
 		}else {
 			System.out.println("not enough info to calc results");
 		}
@@ -51,57 +51,7 @@ public final  class CalcResults {
 	}
 
 	
-	private static Object[][] riverResults  (Card[] hand, Card[] board){return null;}
-	
-	
-	private static Object[][] preFlopResults(Card[] hand, Card[] board){
-		Object[][] give = new Object[4][2];
-		String add = "";
-		for(Card i : hand) {
-			add += i;
-			add += " , ";
-		}
-		give[0][0] = "the hand is";
-		give[0][1] = add;
-		add = "";
-		for(Card i : board) {
-			add += i;
-			add += " , ";
-		}
-		give[1][0] = "the board is";
-		give[1][1] = add;
-		give[2][0] = "has low draw?";
-		give[2][1] = new Boolean(hasLowDraw(hand, board));
-		give[3][0] = "odds of compleating the low: ";
-		give[3][1] = oddsOfMakeingLow(hand, board);
-		return give;
-	}
-	
-	
-	private static Object[][] turnResults   (Card[] hand, Card[] board){
-		Object[][] give = new Object[4][2];
-		String add = "";
-		for(Card i : hand) {
-			add += i;
-			add += " , ";
-		}
-		give[0][0] = "the hand is";
-		give[0][1] = add;
-		add = "";
-		for(Card i : board) {
-			add += i;
-			add += " , ";
-		}
-		give[1][0] = "the board is";
-		give[1][1] = add;
-		give[2][0] = "has low draw?";
-		give[2][1] = new Boolean(hasLowDraw(hand, board));
-		give[3][0] = "odds of compleating the low: ";
-		give[3][1] = oddsOfMakeingLow(hand, board);
-		return give;
-		
-	}
-	
+
 	/**
 	 * flop results I want:
 	 * 		+ has a low draw
@@ -116,7 +66,7 @@ public final  class CalcResults {
 	 * @param board
 	 * @return
 	 */
-	private static Object[][] flopResults   (Card[] hand, Card[] board){
+	private static Object[][] results   (Card[] hand, Card[] board){
 		Object[][] give = new Object[4][2];
 		String add = "";
 		for(Card i : hand) {
@@ -249,6 +199,10 @@ public final  class CalcResults {
 	 * @TODO might be easier to remove all cards that are in our hand from the board and compute results based on lenghts 
 	 */
 	private static boolean hasLowDraw(Card[] hand, Card[] board) {
+		if(board != null && board.length ==5) {
+			// can't have a low draw if there are no draws left
+			return false;
+		}
 		Card[] lowHand = getLowCards(hand);
 		Card[] lowBoard = getLowCards(board);
 		// there needs to be at least 2 low cards on the board for a low draw to be possible
