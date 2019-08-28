@@ -36,17 +36,11 @@ public final  class CalcResults {
 		test[1] = "this is also a test";
 		update.updateTable(results , test);
 		if(board.length == 3) {
-			System.out.println("'''''''''''");
-			for( Card i : board) {
-				
-				System.out.println(i);
-				
-			}
-			System.out.println("=========");
 			update.updateTable(flopResults( hand, board), test);
 		}
-//		else if(board.length == 4) {
-//			update.updateTable(turnResults(hand, board), null);
+		else if(board.length == 4) {
+			update.updateTable(turnResults(hand, board), test);
+		}
 //		}else if(board.length == 5) {
 //			update.updateTable(riverResults(hand, board), null);
 //		}else if(board.length == 0) {
@@ -59,8 +53,35 @@ public final  class CalcResults {
 
 	
 	private static Object[][] riverResults  (Card[] hand, Card[] board){return null;}
+	
+	
 	private static Object[][] preFlopResults(Card[] hand, Card[] board){return null;}
-	private static Object[][] turnResults   (Card[] hand, Card[] board){return null;}
+	
+	
+	private static Object[][] turnResults   (Card[] hand, Card[] board){
+
+		Object[][] give = new Object[4][2];
+		String add = "";
+		for(Card i : hand) {
+			add += i;
+			add += " , ";
+		}
+		give[0][0] = "the hand is";
+		give[0][1] = add;
+		add = "";
+		for(Card i : board) {
+			add += i;
+			add += " , ";
+		}
+		give[1][0] = "the board is";
+		give[1][1] = add;
+		give[2][0] = "has low draw?";
+		give[2][1] = new Boolean(hasLowDraw(hand, board));
+		give[3][0] = "odds of compleating the low: ";
+		give[3][1] = oddsOfMakeingLow(hand, board);
+		return give;
+		
+	}
 	
 	/**
 	 * flop results I want:
@@ -108,14 +129,21 @@ public final  class CalcResults {
 		int cardsLeftToCome =  5 - board.length;
 		Card[] lowBoard = getLowCards(board);
 		Card[] lowHand = getLowCards(hand);
+
 		// find how many cards make us a low
 		int outs = 0; 
 		
 		// get rid of all pair low cards on the board 
 		for( Card i :lowHand) {
-			removeCardOfRank(i.getRank(), lowBoard);
+			lowBoard = removeCardOfRank(i.getRank(), lowBoard);
 		}
-	
+
+		if(lowBoard.length >= 3 && lowHand.length >= 2) {
+			// we have made a low
+			System.out.println("we have made a low");
+			return 1;
+		}
+
 		// figure out how many outs we have if there are 2 low cards on the board and how many low cards are in our hand
 		switch (lowHand.length) {
 		case 1: // if there is only one card in our hand, we cannot make a low
