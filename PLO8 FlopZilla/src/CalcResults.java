@@ -29,25 +29,24 @@ public final  class CalcResults {
 	
 	public static void calcResults(Card[] hand, Card[] board, ResultsPane update) {
 		Object[][] results = new Object [2][2];
-		results[0][0] = "the length of hand is :" + hand.length;
-		results[1][1] = "i am also testing";
 		String[] test = new String[2];
-		test[0] = "this is a test";
-		test[1] = "this is also a test";
+		test[0] = "i guess somthing has to go here? ";
+		test[1] = "im not realy sure i think i need to read about JTables";
 		update.updateTable(results , test);
+		if(board == null) {
+			update.updateTable(preFlopResults(hand, new Card[0]), test);
+			return;
+		}
 		if(board.length == 3) {
 			update.updateTable(flopResults( hand, board), test);
 		}
 		else if(board.length == 4) {
 			update.updateTable(turnResults(hand, board), test);
+		}else if(board.length == 5) {
+			update.updateTable(riverResults(hand, board), test);
+		}else {
+			System.out.println("not enough info to calc results");
 		}
-//		}else if(board.length == 5) {
-//			update.updateTable(riverResults(hand, board), null);
-//		}else if(board.length == 0) {
-//			update.updateTable(preFlopResults(hand, board), null);
-//		}else {
-//			System.out.println("not enough info to calc results");
-//		}
 	
 	}
 
@@ -55,11 +54,31 @@ public final  class CalcResults {
 	private static Object[][] riverResults  (Card[] hand, Card[] board){return null;}
 	
 	
-	private static Object[][] preFlopResults(Card[] hand, Card[] board){return null;}
+	private static Object[][] preFlopResults(Card[] hand, Card[] board){
+		Object[][] give = new Object[4][2];
+		String add = "";
+		for(Card i : hand) {
+			add += i;
+			add += " , ";
+		}
+		give[0][0] = "the hand is";
+		give[0][1] = add;
+		add = "";
+		for(Card i : board) {
+			add += i;
+			add += " , ";
+		}
+		give[1][0] = "the board is";
+		give[1][1] = add;
+		give[2][0] = "has low draw?";
+		give[2][1] = new Boolean(hasLowDraw(hand, board));
+		give[3][0] = "odds of compleating the low: ";
+		give[3][1] = oddsOfMakeingLow(hand, board);
+		return give;
+	}
 	
 	
 	private static Object[][] turnResults   (Card[] hand, Card[] board){
-
 		Object[][] give = new Object[4][2];
 		String add = "";
 		for(Card i : hand) {
@@ -143,6 +162,26 @@ public final  class CalcResults {
 			System.out.println("we have made a low");
 			return 1;
 		}
+		if(cardsLeftToCome == 5) {
+			if(lowHand.length <= 1) {
+				// if we only have 1 or 0 low cards in hand, the result is 0
+				return 0;
+			}
+			// first step is to find the total number of boards
+			int totalFlops = 48*47*46*45*44;
+			// figure out how many have at least 3 low cards on the board
+			if(lowHand.length == 2) {
+				// number of low cards in deck * low cards left in deck * low cards left in deck * the remeindng cards
+				int lowCombos = 24 * (24 - 4) * (24 -8) * 45 * 44;
+				return .24;
+			}else if(lowHand.length == 3){
+				int lowCombos = 29 * (29 -4) * (29-8) * 45 * 44;
+				return .40;
+			}else {
+				int lowCombos = 28 * (28 -4) * (28-8) * 45 * 44;
+				return .49;
+			}
+		}
 
 		// figure out how many outs we have if there are 2 low cards on the board and how many low cards are in our hand
 		switch (lowHand.length) {
@@ -167,13 +206,7 @@ public final  class CalcResults {
 				int highCardCombos = highCards * (highCards -1);
 				return 1 - ((double)(highCardCombos) / totalPossableCombos);
 			}
-			// cards left to come should be 5
-			
-			else {
-				// @TODO to be implemented later
-				return 0;
-			}
-	
+
 		}else if( lowBoard.length == 1) {
 			// there is one less low card on the board.
 			// therefore we need to add that to our out count
