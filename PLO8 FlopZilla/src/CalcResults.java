@@ -108,18 +108,27 @@ public final  class CalcResults {
 				return 0;
 			}
 			// first step is to find the total number of boards
-			int totalFlops = 48*47*46*45*44;
+			int totalBoards = 48*47*46*45*44;
 			// figure out how many have at least 3 low cards on the board
 			if(lowHand.length == 2) {
-				// number of low cards in deck * low cards left in deck * low cards left in deck * the remeindng cards
-				int lowCombos = 24 * (24 - 4) * (24 -8) * 45 * 44;
-				return .24;
+				// we need to find how many ways there are to make a low with 2 low cards in hand then divide by total flops to find the % we make a low
+				int threeLowCombos = 24 * (24 - 4) * (24 -8) * 45 * 44;
+				int fourLowCombos = 24 * (24 - 4) * (24 -8) * (24-12) * 44;
+				int fourLowCombosWithPair = 27 * (24) * (24 -4) * (24-8) * 44;
+				int anyFiveLowCards = 32* (32-4) * (32-8) * (32 - 12) * (32-16);
+				return .3652;
 			}else if(lowHand.length == 3){
-				int lowCombos = 29 * (29 -4) * (29-8) * 45 * 44;
-				return .40;
+				// we need to find how many ways there are to make a low with  low cards in hand then divide by total flops to find the % we make a low
+				int threeLowCombos = 29 * (29 - 4) * (29 -8) * 45 * 44;
+				int threeLowCombosWithPair = 32 * (29) * (29 - 4) * 45 * 44;
+				int fourLowCombos = 29 * (29 - 4) * (29 -8) * (29 -12) * 44; 
+				int anyFiveLowCombos = 32* (32-4) * (32-8) * (32 - 12) * (32-16);
+				int fourLowCombosOnePair = 32 * (29) * (29 - 4) * (29 -8) * 44;
+				return .4952;
 			}else {
+				// we need to find how many ways there are to make a low with 4 low cards in hand then divide by total flops to find the % we make a low
 				int lowCombos = 28 * (28 -4) * (28-8) * 45 * 44;
-				return .49;
+				return .5308;
 			}
 		}
 
